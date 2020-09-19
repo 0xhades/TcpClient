@@ -72,7 +72,7 @@ class scop:
         '''  Edit postData use just username to be fast, not email checks etc.. '''
 
         
-        request = f'POST /api/v1/accounts/create/ HTTP/1.1\r\nContent-Type: application/x-www-form-urlencoded; charset=UTF-8\r\nAccept-Language: en-US\r\nX-IG-Connection-Type: WIFI\r\nX-FB-HTTP-Engine: Liger\r\nConnection: Keep-Alive\r\nHost: i.instagram.com\r\nUser-Agent: Instagram 107.0.0.27.121 Android (19/4.4.2; 480dpi; 1152x1920; Meizu; MX4; mx4; mt6595; en_US)\r\nAccept: */*\r\nCookie2: $Version=1\r\nContent-Length: 348\r\n\r\n'
+        request = f'POST /api/v1/accounts/login/ HTTP/1.1\r\nContent-Type: application/x-www-form-urlencoded; charset=UTF-8\r\nAccept-Language: en-US\r\nX-IG-Connection-Type: WIFI\r\nX-FB-HTTP-Engine: Liger\r\nConnection: Keep-Alive\r\nHost: i.instagram.com\r\nUser-Agent: Instagram 107.0.0.27.121 Android (19/4.4.2; 480dpi; 1152x1920; Meizu; MX4; mx4; mt6595; en_US)\r\nAccept: */*\r\nCookie2: $Version=1\r\nContent-Length: {len(gzipped_body)}\r\n\r\n'
         #request = f'POST /api/v1/accounts/login/ HTTP/1.1\r\nHost: i.instagram.com\r\nContent-Encoding: gzip\r\nCookie2: $Version=1\r\nAccept-Language: en-US\r\nAccept-Encoding: gzip, deflate\r\nUser-Agent: Instagram 107.0.0.27.121 Android (19/4.4.2; 480dpi; 1152x1920; Meizu; MX4; mx4; mt6595; en_US)\r\nAccept: */*\r\nContent-Type: application/x-www-form-urlencoded; charset=UTF-8\r\nX-IG-Connection-Type: WIFI\r\nX-FB-HTTP-Engine: Liger\r\nConnection: Keep-Alive\r\nContent-Length: {len(gzipped_body)}\r\n\r\n'
         #request = f'GET /api/v1/accounts/login/ HTTP/1.1\r\nHost: i.instagram.com\r\n\r\n'
         payloadBuffer = bytes(request, 'utf8') + gzipped_body
@@ -133,7 +133,7 @@ class scop:
                     self.buffer += self.client.read(4096)
                 except Exception as ex: pass
                 res = self.buffer.decode()
-                if 'bad_password' in res or 'rate_limit' in res or 'invalid_user' in res or 'Content-Length' in res:
+                if 'bad_password' in res or 'rate_limit' in res or 'invalid_user' in res or 'Content-Length' in res or '5xx Server Error' in res or 'account_created' in res or '</html>' in res: 
                     counter += 1  
                     print(res[:12], counter)
                     if lap == 0:
