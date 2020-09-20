@@ -85,7 +85,7 @@ class scop:
         # connect the client 
         self.client.connect((target_host,target_port)) 
         #client.settimeout()
-        self.client.setblocking(0)
+        #self.client.setblocking(0)
         
 
         started_time = time.time()
